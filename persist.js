@@ -2,9 +2,8 @@ const mongoose = require("mongoose")
 
 
 function connect(callback) {
-    let connectionString = `mongodb+srv://tilder_2021:myCoolPassword@cluster0.jpjzl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+    let connectionString = `mongodb+srv://tilder_2021:myCoolPassword@cluster0.jpjzl.mongodb.net/forum2021?retryWrites=true&w=majority`
     console.log("Connecting to server...")
-
     mongoose.connect(
         connectionString, {
         useNewUrlParser: true,
