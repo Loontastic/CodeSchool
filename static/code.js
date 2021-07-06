@@ -1,134 +1,127 @@
-var app = new Vue ( { 
-    el: "#app", 
-    vuetify: new Vuetify(),
-    data:{
-        page:"blog",
-        drawer:false,
-        selected_category:"all",
-        categories:[
-            "all",
-            "clothing",
-            "hunting",
-            "books",
-            "cards",
-            "coins",
-            "keychains",
-            "comic books",
-            "misc.",
-        ],
-        threads:[],
 
-        postings:[],
-
-        //for a new thread
+var app = new Vue({
+    el: '#app',
+    data: {
+        page:"forum",
+        categories:["all", "ball", "stall"],
         new_name:"",
         new_author:"",
         new_description:"",
         new_category:"all",
-
-        //for a new post on a thread
+        filter_category:"all",
+        current_post_thread:{},
+        current_reply_thread:{},
+        new_post_name:"",
         new_post_body:"",
-        new_post_author:"",
-
-        server_url:"http://forum2021.codeschool.cloud"
-    }, 
+        threads: [],
+        server_url: "http://localhost:8080"
+    },
     created:function(){
-        this.getThreads();
+        this.getThreads(this.setThreads);
     },
     methods:{
-        getThreads:function(){
-            fetch(this.server_url+"/thread").then(function(res){
-                res.json().then(function(data){
-                    app.threads= data;
-                })
+        setThreads:function(data){
+            this.threads = data
+        },
+        setCurrentReply:function(data){
+            this.current_reply_thread = data
+        },
+        setCurrentPost: function(data){
+            this.current_post_thread = data
+        },
+        getThreads:function(callback, id=""){
+            fetch(this.server_url + '/thread/' + id).then(function(response) {
+                response.json().then(function(data){
+                    callback(data)
+                });
             });
         },
-
         createThread:function(){
-            var new_thread={
-                name:this.new_name,
-                author:this.new_author,
-                description:this.new_description,
-                category:this.new_category,
-            };
-            fetch(this.server_url+"/thread",{
+            my_data={
+                name: this.new_name,
+                author: this.new_author,
+                description: this.new_description,
+                category: this.new_category,
+                posts:[]
+            }
+            fetch(this.server_url + '/thread', {
                 method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-                },
-                body:JSON.stringify(new_thread)
-            }).then(function() {
-                app.getThreads();
-                app.new_name="";
-                app.new_author="";
-                app.category="all";
-                app.new_description="";
-                app.page="blog";
-
-            });
-        },
-        deleteThread:function(thread_id){
-            fetch(this.server_url+"/thread/"+thread_id,{
-                method:"DELETE",
-                headers:{
-                    "Content-Type":"application/json"
+                body: JSON.stringify(my_data),
+                headers: {
+                    "Content-Type": "application/json"
                 }
-            }).then(function(){
-                app.getThreads()})
+                //options for fetch
+                }).then(function(){
+                    app.getThreads(app.setThreads);
+                });
+                this.new_name="";
+                this.new_author="";
+                this.new_description="";    
+                this.category="all";
         },
-        
-        getPosts:function(thread_id){
-            fetch(this.server_url+"/thread/"+thread_id).then(function(res){
-                res.json().then(function(data){
-                    app.postings= data;
-                    console.log(data)
-                })
-            }).then(function(){
-                app.page="posts"
+        myDelete:function(url){
+            fetch(this.server_url + url, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+                //options for fetch
+                }).then(function(){
+                    app.getThreads(app.setThreads);
+                    app.getThreads(app.setCurrentPost, app.current_post_thread._id);
             });
         },
-
-        createPost:function(thread_id){
-            var new_post={
-                thread_id:thread_id,
-                author:this.new_post_author,
-                body:this.new_post_body
-            };
-            fetch(this.server_url+"/post",{
+        changeToPosts:function(thread){
+            if (this.current_post_thread._id == thread._id){
+                this.current_post_thread = []
+            }
+            else{
+                this.getThreads(this.setCurrentPost, thread._id)
+            }
+        },
+        reply:function(thread){
+            if (this.current_reply_thread._id == thread._id){
+                this.current_reply_thread = []
+            }
+            else{
+                this.getThreads(this.setCurrentReply, thread._id)
+            }
+        },
+        createPost:function(){
+            let my_data = {
+                thread_id: this.current_reply_thread._id,
+                author: this.new_post_name,
+                body: this.new_post_body
+            }
+            fetch(this.server_url + '/post', {
                 method: "POST",
-				headers: {
-					"Content-Type": "application/json"
-                },
-                body:JSON.stringify(new_post)
-            }).then(function() {
-                app.getPosts(thread_id);
-                app.new_post_author="";
-                app.new_post_body="";
-
-            });
-        },
-        deletePost:function(post){
-            fetch(this.server_url+"/post/"+post.thread_id+"/"+post._id,{
-                method:"DELETE",
-                headers:{
-                    "Content-Type":"application/json"
+                body: JSON.stringify(my_data),
+                headers: {
+                    "Content-Type": "application/json"
                 }
-            }).then(function(){
-                app.getPosts(post.thread_id)})
-        }
-
-
+                //options for fetch
+                }).then(function(){
+                    app.getThreads(app.setThreads);
+                    app.getThreads(app.setCurrentPost, app.current_post_thread._id)
+            });
+            this.current_reply_thread = {}
+            this.new_post_name = ""
+            this.new_post_body = ""
+        },
     },
     computed:{
         sorted_threads:function(){
-            if(this.selected_category == "all"){
-                return this.threads;
-            } else {
-                var sorted_threads = this.threads.filter(function(thread){
-                    return thread.category == app.selected_category;
-                });
-                return sorted_threads;
+            if(this.filter_category == "all"){
+                return this.threads
             }
-        }
+            else{
+                let filter_category = this.filter_category
+                return this.threads.filter(function(thread){
+                    return thread.category == filter_category
+                })
+            }
+        },
+
+        
     }
 });

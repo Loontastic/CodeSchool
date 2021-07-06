@@ -156,7 +156,7 @@ server.post("/post", (req, res)=>{
                 );
                 return;
             }
-            res.status(200).json(thread);
+            res.status(200).json(thread.posts[thread.posts.length -1]);
     });
 })
 //DELETE /post/:thread_id/:post_id
@@ -171,9 +171,7 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
             },
         },
     }, 
-    {
-        new:true,
-    },
+    
     (err,thread)=>{
         if (err){
             res.status(500).send(
@@ -193,7 +191,20 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
             );
             return;
         }
-        res.status(200).json(thread)
+        let post;
+        thread.posts.forEach((e) =>{
+            if (e._id == req.params.post_id){
+                post = e;
+            }
+        });
+        if (!post){
+            res.status(404).json({
+                message: "Could not find post",
+                error:err
+            });
+        }
+        console.log(post)
+        res.status(200).json(post)
     }
     )
 })
