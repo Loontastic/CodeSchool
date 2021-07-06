@@ -9,13 +9,14 @@ const threadSchema = mongoose.Schema({
     createdAt: Date,
     updatedAt: Date,
 });
-const postSchema = mongoose.Schema({
+const postSchema = mongoose.Schema(
+    {
     thread_id: {type: mongoose.Schema.Types.ObjectId, ref:"Thread"},
     author: String,
     body: String,
-    createdAt: Date,
-    updatedAt: Date,
-})
+    },
+    {timestamps:true}
+)
 const Thread = mongoose.model("Thread", threadSchema)
 const Post = mongoose.model("Post", postSchema);
 let store = {};
