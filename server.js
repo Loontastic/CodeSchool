@@ -1,6 +1,6 @@
 const express = require("express")
 const cors = require("cors")
-const { Thread } = require("./model")
+const { Thread, Post} = require("./model")
 const server = express()
 
 server.use(cors())
@@ -40,6 +40,21 @@ server.get("/thread", (req, res)=>{
 server.get("/thread/:id", (req, res) =>{
     res.setHeader("Content-Type", "application/json");
     console.log(`Getting thread with id ${req.params.id}`)
+    Thread.findById(req.params.id, (err, thread)=>{
+        if (err){
+            console.log(`There was an error`);
+            res.status(500).send(
+                JSON.stringify({
+                    message:`Unable to find the thread with id ${res.params.id}`,
+                    error:err,
+                })
+            );
+            return;
+        }
+        else if(!thread){
+            
+        }
+    });
     res.json({});
 })
 //POST /thread
