@@ -14,7 +14,7 @@ var app = new Vue({
         new_post_name:"",
         new_post_body:"",
         threads: [],
-        server_url: "http://localhost:8080"
+        server_url: "https://code-school-forum-2021.herokuapp.com"
     },
     created:function(){
         this.getThreads(this.setThreads);
