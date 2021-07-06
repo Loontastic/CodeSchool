@@ -4,8 +4,8 @@ const { Thread } = require("./model")
 const server = express()
 
 server.use(cors())
-server.use(express.static('static'))
 server.use(express.json({}))
+server.use(express.static('static'))
 module.exports = server;
 
 server.get((req, res, next)=>{
