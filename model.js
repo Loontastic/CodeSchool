@@ -10,7 +10,7 @@ const threadSchema = mongoose.Schema({
     updatedAt: Date,
 });
 const postSchema = mongoose.Schema({
-    thread_id: String,
+    thread_id: {type: mongoose.Schema.Types.ObjectId, ref:"Thread"},
     author: String,
     body: String,
     createdAt: Date,
