@@ -1,14 +1,6 @@
 const mongoose = require("mongoose");
 
-const threadSchema = mongoose.Schema({
-    name: String,
-    description: String,
-    author: String,
-    category: String,
-    posts: Array,
-    createdAt: Date,
-    updatedAt: Date,
-});
+
 const postSchema = mongoose.Schema(
     {
     thread_id: {type: mongoose.Schema.Types.ObjectId, ref:"Thread"},
@@ -17,6 +9,16 @@ const postSchema = mongoose.Schema(
     },
     {timestamps:true}
 )
+const threadSchema = mongoose.Schema(
+    {
+    name: String,
+    description: String,
+    author: String,
+    category: String,
+    posts: [postSchema],
+    },
+    {timestamps: true}
+);
 const Thread = mongoose.model("Thread", threadSchema)
 const Post = mongoose.model("Post", postSchema);
 let store = {};
