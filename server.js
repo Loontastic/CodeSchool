@@ -215,7 +215,7 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
 server.get("/posts", (req, res)=>{
     res.setHeader("ContentType", "application/json");
     console.log("Getting the Threads");
-    let posts={}
+    let posts=[]
     Thread.find({
         "posts.body":{
             $regex:req.body.hashtag
