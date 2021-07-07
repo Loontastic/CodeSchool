@@ -45,10 +45,15 @@ function toGrabPosts(){
     //masterList.push(post)
 }
 function deleteDatabase(){
-    //code
+    Thread.find({}, (err, myThread)=>{
+        Thread.forEach(myThread => {
+            Thread.findByIdAndDelete(myThread._id, (err, thread)=>{
+            });
+        })
+    })
 }
 function createThreads(){
-    //code
+    
 }
 function createPosts(){
     //code
