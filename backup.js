@@ -11,7 +11,13 @@ function toGrabPosts(){
     //masterList.push(post)
 }
 function deleteDatabase(){
-    //code
+    Tilder.find({}, (err, tilder)=>{
+        tilder.forEach(mytilder => {
+            Tilder.findByIdAndDelete(mytilder._id, (err, tilder)=>{
+            });
+        })
+        callback(filePath);
+    })
 }
 function createThreads(){
     //code
