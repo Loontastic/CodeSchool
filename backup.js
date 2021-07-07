@@ -2,7 +2,7 @@ var fs = require("fs");
 const {Post, Thread} = require('./model')
 //pull all threads
 masterList = []
-function toGrabThread(){
+function toGrabThread(list){
     //code
     console.log("Getting the Threads");
     Thread.find({}, (err, thread)=>{
@@ -15,7 +15,7 @@ function toGrabThread(){
             return;
         }
         // res.status(200).json(thread);
-        masterList.push(thread);
+        list.push(thread);
         req.local = {
             error: "this is my error message"
         }
@@ -23,7 +23,7 @@ function toGrabThread(){
     });
     //masterList.push(thread)
 }
-function toGrabPosts(){
+function toGrabPosts(list){
     //code
     console.log("Getting the Posts");
     Post.find({}, (err, post)=>{
@@ -36,7 +36,7 @@ function toGrabPosts(){
             return;
         }
         // res.status(200).json(thread);
-        masterList.push(post);
+        list.push(post);
         req.local = {
             error: "this is my error message"
         }
