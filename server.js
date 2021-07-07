@@ -208,9 +208,35 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
         }
         console.log(post)
         res.status(200).json(post)
-    }
-    )
+    })
 })
+
+//hashtag loock up
+server.get("/posts", (req, res)=>{
+    res.setHeader("ContentType", "application/json");
+    console.log("Getting the Threads");
+    let posts={}
+    Thread.find({
+        "posts.body":{
+            $regex:req.body.hashtag
+        }
+    }, (err, threads)=>{
+        if (err){
+            console.log("There was an error getting the Posts")
+            res.status(500).send(
+                JSON.stringify({message:"Unable to grab the posts",
+                error:err})
+            );
+            return;
+        }
+        
+        threads.forEach((thread)=>{
+            posts.push(thread.posts)
+        })
+        res.status(200).json(posts);
+    });
+});
+
 server.use((req,res)=>{
     if (err){
         res.status(500).json(err);
