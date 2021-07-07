@@ -59,3 +59,6 @@ function createPosts(){
     //code
 }
 //pull posts from specific thread
+
+//exporting our functions
+module.exports = {toGrabPosts, toGrabThread, masterList} ;
