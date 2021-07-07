@@ -14,7 +14,10 @@ var app = new Vue({
         new_post_name:"",
         new_post_body:"",
         threads: [],
-        server_url: "https://code-school-forum-2021.herokuapp.com"
+        server_url: "https://code-school-forum-2021.herokuapp.com",
+        search_string: "",
+        hashtag: [],
+        posts: []
     },
     created:function(){
         this.getThreads(this.setThreads);
@@ -122,6 +125,37 @@ var app = new Vue({
             }
         },
 
+        filtered: function(){
+            var search_string = this.search_string;
+            var hashtag = this.hashtag
+            var posts = []
+
+            fetch(this.server_url + '/posts', {
+                method: "GET",
+                body: JSON.stringify({
+                    "hashtag": hashtag
+                }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+                //options for fetch
+                }).then(function(response){
+                    response.json().then((data)=>{
+                        app.posts = data
+                    })
+            });
+
+            search_string = search_string.trim().toLowerCase();
+
+            hashtag = hashtag.filter(function(item){
+                if( item.body.toLowerCase().includes(search_string)){
+                    return item.body.toLowerCase()
+                }
+            
+            })
+            return hashtag
+
+        }
         
     }
 });

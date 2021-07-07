@@ -10,6 +10,11 @@
 <body>
     <div id="app">
         <h1>Forum App</h1>
+
+        <div class="bar">
+            <input type="text" v-model="search_string" placeholder=" Search # ">
+        </div>
+
         <button v-on:click="page ='forum'">Forum</button>
         <button v-on:click="page ='thread'">Thread</button>
 
