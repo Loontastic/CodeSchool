@@ -14,6 +14,7 @@
         <div class="bar">
             <input type="text" v-model="search_string" placeholder=" Search # ">
         </div>
+        <button v-on:click="page = 'hashtag'">#lookup</button>
 
         <button v-on:click="page ='forum'">Forum</button>
         <button v-on:click="page ='thread'">Thread</button>
@@ -60,6 +61,16 @@
                 <option v-for="category in categories" v-bind:value="category">{{category}}</option>
             </select>
             <button v-on:click="createThread()">Post</button>
+        </div>
+        
+        <div v-if="page =='hashtag'">
+            <h2>hashtag list</h2>
+            <div >
+                <li v-for="post in posts">
+                    <h3>{{post.author}}</h3>
+                    <p>{{post.body}}</p>
+                </li>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>

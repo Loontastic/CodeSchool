@@ -128,7 +128,6 @@ var app = new Vue({
         filtered: function(){
             var search_string = this.search_string;
             var hashtag = this.hashtag
-            var posts = []
 
             fetch(this.server_url + '/posts', {
                 method: "GET",
@@ -142,6 +141,7 @@ var app = new Vue({
                 }).then(function(response){
                     response.json().then((data)=>{
                         app.posts = data
+                        console.log(data)
                     })
             });
 
@@ -153,6 +153,7 @@ var app = new Vue({
                 }
             
             })
+            console.log("hashtag")
             return hashtag
 
         }
