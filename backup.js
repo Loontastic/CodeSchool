@@ -1,7 +1,6 @@
 var fs = require("fs");
 const {Post, Thread} = require('./model')
 //pull all threads
-masterList = []
 function toGrabThread(list){
     //code
     console.log("Getting the Threads");
@@ -16,10 +15,7 @@ function toGrabThread(list){
         }
         // res.status(200).json(thread);
         list.push(thread);
-        req.local = {
-            error: "this is my error message"
-        }
-        next();
+       
     });
     //masterList.push(thread)
 }
@@ -37,10 +33,7 @@ function toGrabPosts(list){
         }
         // res.status(200).json(thread);
         list.push(post);
-        req.local = {
-            error: "this is my error message"
-        }
-        next();
+        
     });
     //masterList.push(post)
 }
@@ -61,4 +54,4 @@ function createPosts(){
 //pull posts from specific thread
 
 //exporting our functions
-module.exports = {toGrabPosts, toGrabThread, masterList} ;
+module.exports = {toGrabPosts, toGrabThread} ;
