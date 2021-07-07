@@ -6,7 +6,6 @@ const server = express()
 server.use(cors())
 server.use(express.json({}))
 server.use(express.static('static'))
-module.exports = server;
 
 server.get((req, res, next)=>{
     console.log(
@@ -21,7 +20,7 @@ server.get((req, res, next)=>{
     next();
 })
 //GET /thread
-server.get("/thread", (req, res)=>{
+server.get("/thread", (req, res, next)=>{
     res.setHeader("ContentType", "application/json");
     console.log("Getting the Threads");
     Thread.find({}, (err, thread)=>{
@@ -34,6 +33,10 @@ server.get("/thread", (req, res)=>{
             return;
         }
         res.status(200).json(thread);
+        req.local = {
+            error: "this is my error message"
+        }
+        next();
     });
 });
 //GET /thread/:id
@@ -208,3 +211,12 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
     }
     )
 })
+server.use((req,res)=>{
+    if (err){
+        res.status(500).json(err);
+        return;
+    }
+    res.status(200).json("success");
+})
+
+module.exports = server;
