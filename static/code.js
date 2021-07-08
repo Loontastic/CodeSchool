@@ -14,7 +14,9 @@ var app = new Vue({
         new_post_name:"",
         new_post_body:"",
         threads: [],
-        server_url: "https://code-school-forum-2021.herokuapp.com"
+        server_url: "https://code-school-forum-2021.herokuapp.com",
+        search_string: "",
+        posts: []
     },
     created:function(){
         this.getThreads(this.setThreads);
@@ -123,6 +125,35 @@ var app = new Vue({
             }
         },
 
+        //search bar
+        filtered: function(){
+            var search_string = this.search_string;
+
+            fetch(this.server_url + '/posts', {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "hashtag": this.search_string
+                }
+                //options for fetch
+                }).then(function(response){
+                    response.json().then(data=>{
+                        app.posts=data
+                    })
+                });
+
+            search_string = search_string.trim().toLowerCase();
+
+            app.posts = app.posts.filter(function(item){
+                if( item.body.toLowerCase().includes(search_string)){
+                    return item.body.toLowerCase()
+                }
+            
+            })
+            console.log("hashtag")
+            return app.posts
+
+        }
         
     }
 });
