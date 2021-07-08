@@ -211,6 +211,9 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
     }
     )
 })
+
+// Where is my code T_T
+
 server.use((req,res)=>{
     if (err){
         res.status(500).json(err);

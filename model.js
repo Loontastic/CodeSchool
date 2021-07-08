@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-
+// define Schema for posts
 const postSchema = mongoose.Schema(
     {
     thread_id: {type: mongoose.Schema.Types.ObjectId, ref:"Thread"},
@@ -9,6 +9,7 @@ const postSchema = mongoose.Schema(
     },
     {timestamps:true}
 )
+// define Schema for threads
 const threadSchema = mongoose.Schema(
     {
     name: String,
