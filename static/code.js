@@ -121,8 +121,6 @@ var app = new Vue({
                     return thread.category == filter_category
                 })
             }
-        },
-
-        
+        },   
     }
 });
