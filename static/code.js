@@ -109,6 +109,7 @@ var app = new Vue({
             this.new_post_body = ""
         },
     },
+    //computed
     computed:{
         sorted_threads:function(){
             if(this.filter_category == "all"){
