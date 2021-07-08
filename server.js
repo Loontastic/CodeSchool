@@ -215,11 +215,11 @@ server.delete("/post/:thread_id/:post_id", (req, res)=>{
 //hashtag loock up
 server.get("/posts", (req, res)=>{
     res.setHeader("ContentType", "application/json");
-    console.log("Getting the Threads");
+    console.log("Getting hashtag posts");
     let posts=[]
     Thread.find({
         "posts.body":{
-            $regex:req.body.hashtag
+            $regex:req.headers.hashtag
         }
     }, (err, threads)=>{
         if (err){

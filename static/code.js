@@ -127,23 +127,19 @@ var app = new Vue({
 
         filtered: function(){
             var search_string = this.search_string;
-            var hashtag = this.hashtag
 
             fetch(this.server_url + '/posts', {
                 method: "GET",
-                body: JSON.stringify({
-                    "hashtag": hashtag
-                }),
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "hashtag": this.hashtag
                 }
                 //options for fetch
                 }).then(function(response){
-                    response.json().then((data)=>{
-                        app.posts = data
-                        console.log(data)
+                    response.json().then(data=>{
+                        app.posts=data
                     })
-            });
+                });
 
             search_string = search_string.trim().toLowerCase();
 
