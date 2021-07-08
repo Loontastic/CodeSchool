@@ -15,10 +15,6 @@ function toGrabThread(list){
         }
         // res.status(200).json(thread);
         list.push(thread);
-<<<<<<< HEAD
-       
-=======
->>>>>>> ae3b1c4f313556cd8d49e62da69ee7b40e57c2f4
     });
     //masterList.push(thread)
 }
@@ -27,8 +23,7 @@ function toGrabPosts(list){
     console.log(`Grabbing posts`);
     Thread.find(req.params.thread_id,{
         $pull: {
-            posts:{
-                _id:req.params.post_id,
+            posts:{              _id:req.params.post_id,
             },
         },
     }, 
@@ -42,11 +37,6 @@ function toGrabPosts(list){
             );
             return;
         }
-<<<<<<< HEAD
-        // res.status(200).json(thread);
-        list.push(post);
-        
-=======
         else if (!thread){
             res.status(404).send(
                 JSON.stringify({
@@ -70,7 +60,6 @@ function toGrabPosts(list){
         }
         console.log(post);
         list.push(post);
->>>>>>> ae3b1c4f313556cd8d49e62da69ee7b40e57c2f4
     });
     //masterList.push(post)
 }
