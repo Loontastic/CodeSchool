@@ -1,7 +1,7 @@
 var fs = require("fs");
 const {Post, Thread} = require('./model')
 //pull all threads
-function toGrabThread(list){
+function toGrabThread(index){
     //code
     console.log("Getting the Threads");
     Thread.find({}, (err, thread)=>{
@@ -14,7 +14,10 @@ function toGrabThread(list){
             return;
         }
         // res.status(200).json(thread);C
-        list.push(thread);
+        let filePath = "backupNumber" + index +".txt";
+        fs.writeFile(filePath,JSON.stringify(thread), (err) => {
+            if (err) console.log(err);
+        });
     });
     //masterList.push(thread)
 }
