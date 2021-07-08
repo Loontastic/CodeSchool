@@ -1,13 +1,10 @@
 const {Tilder} = require('./model')
-const persist = require("./persist");
 var fs = require("fs");
-
 function backupData(callback, index) {
     return_value = "";
     Tilder.find({}, (err, tilder)=>{
         callback(tilder, index);
     })
-    
 }
 function writeData(data, index) {
     var myData = []
@@ -28,7 +25,6 @@ function restoreData(callback, filePath){
         callback(filePath);
     })
 }
-
 function loadFromFilePath(filePath){
     fs.readFile(filePath, "utf-8", (err, content) =>{
         var myData = JSON.parse(content);
