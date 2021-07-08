@@ -13,7 +13,7 @@ function toGrabThread(list){
             );
             return;
         }
-        // res.status(200).json(thread);
+        // res.status(200).json(thread);C
         list.push(thread);
     });
     //masterList.push(thread)
@@ -72,11 +72,49 @@ function deleteDatabase(){
         })
     })
 }
-function createThreads(){
-    
+function createThreads(filePath){
+    fs.readFile(filePath, "utf-8", (err, content) =>{
+        var myData = JSON.parse(content);
+        for (const index in myData){
+            if (!myData[index].thread_id);
+                Thread.create(myData[index],(err,tilder)=>{});
+        }
+    });
+    Thread.create(newPost, (err,thread)=>{
+    });
 }
 function createPosts(){
-    //code
+    Thread.findByIdAndUpdate(req.body.thread_id, 
+        {
+            $push: {
+                posts: newPost
+            },
+        },
+        {
+            new:true,
+        },
+        (err, thread)=>{
+            console.log("GIGA")
+            if (err){
+                res.status(500).send(
+                    JSON.stringify({
+                        message:`Unable to post to specified thread `,
+                        error:`That thread doesn't exist!`,
+                    })
+                );
+                return;
+            }
+            else if (!thread){
+                res.status(404).send(
+                    JSON.stringify({
+                        message:`Unable to create post with specified thread`,
+                        error:`The specified thread doesn't exist!`,
+                    })
+                );
+                return;
+            }
+            res.status(200).json(thread.posts[thread.posts.length -1]);
+    });
 }
 //pull posts from specific thread
 

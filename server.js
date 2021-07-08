@@ -91,7 +91,7 @@ server.post("/thread", (req,res)=>{
         };
         console.log("NO ERROR")
         res.status(201).json(thread)
-    })
+    });
 });
 //DELETE /thread:id
 server.delete("/thread/:id", (req,res)=>{
