@@ -12,7 +12,7 @@
         <h1>Forum App</h1>
 
         <div class="bar">
-            <input type="text" v-model="search_string" placeholder=" Search # ">
+            <input v-on:keydown="filtered" type="text" v-model="search_string" placeholder=" Search # ">
         </div>
         <button v-on:click="page = 'hashtag'">#lookup</button>
 
