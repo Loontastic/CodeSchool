@@ -1,6 +1,6 @@
 const server = require("./server");
 const persist = require("./persist");
-const { toGrabThread, toGrabPosts } = require("./backup");
+const { toGrabThread, deleteDatabase, createThreads } = require("./backup");
 
 
 const port = process.argv[2]||process.env.PORT ||8080;
@@ -12,7 +12,8 @@ persist(()=>{
 })
 i = 0
 setInterval(function(){
-    toGrabThread(i)
+    //toGrabThread(i)
     i++
+    deleteDatabase(createThreads, i)
     console.log(i)
 },2500)
