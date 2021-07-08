@@ -8,7 +8,6 @@ const port = process.argv[2] || process.env.PORT || 8080;
 //Toshi test 1
 //Toshi test 2
 //Super chicken
-const port = process.argv[2]||process.env.PORT ||8080;
 
 persist(()=>{
     server.listen(port, ()=>{
