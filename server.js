@@ -5,7 +5,7 @@ const server = express()
 
 server.use(cors())
 server.use(express.json({}))
-server.use(express.static('static'))
+server.use(express.static('static'))     
 
 server.get((req, res, next)=>{
     console.log(
@@ -44,6 +44,7 @@ server.get("/thread/:id", (req, res) =>{
     res.setHeader("Content-Type", "application/json");
     console.log(`Getting thread with id ${req.params.id}`)
     Thread.findById(req.params.id, (err, thread)=>{
+        
         if (err){
             console.log(`There was an error`);
             res.status(500).send(

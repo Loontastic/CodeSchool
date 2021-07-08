@@ -20,7 +20,7 @@ const threadSchema = mongoose.Schema(
     },
     {timestamps: true}
 );
-const Thread = mongoose.model("Thread", threadSchema)
+const Thread = mongoose.model("Thread", threadSchema);
 const Post = mongoose.model("Post", postSchema);
 let store = {};
 
