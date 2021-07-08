@@ -3,6 +3,8 @@ const persist = require("./persist");
 const { toGrabThread, deleteDatabase, createThreads } = require("./backup");
 
 //Toshi test
+//Toshi test 1
+//Toshi test 2
 const port = process.argv[2]||process.env.PORT ||8080;
 
 persist(()=>{
