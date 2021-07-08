@@ -14,6 +14,6 @@ i = 0
 setInterval(function(){
     //toGrabThread(i)
     i++
-    deleteDatabase(createThreads, i)
+    //deleteDatabase(createThreads, 7)
     console.log(i)
-},2500)
+},10000)
