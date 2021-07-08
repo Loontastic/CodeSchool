@@ -16,7 +16,6 @@ var app = new Vue({
         threads: [],
         server_url: "https://code-school-forum-2021.herokuapp.com",
         search_string: "",
-        hashtag: [],
         posts: []
     },
     created:function(){
@@ -132,7 +131,7 @@ var app = new Vue({
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "hashtag": this.hashtag
+                    "hashtag": this.search_string
                 }
                 //options for fetch
                 }).then(function(response){
@@ -143,15 +142,13 @@ var app = new Vue({
 
             search_string = search_string.trim().toLowerCase();
 
-            hashtag = hashtag.filter(function(item){
+            app.posts = app.posts.filter(function(item){
                 if( item.body.toLowerCase().includes(search_string)){
                     return item.body.toLowerCase()
                 }
             
             })
-            console.log("hashtag")
-            return hashtag
-
+            return app.posts
         }
         
     }
